@@ -13,8 +13,8 @@ typedef struct
     size_t readIndex;
 } RingFifo;
 
-void RingFifo_Init(RingFifo* fifo);
-void RingFifo_Push(RingFifo* fifo, fifoDataType data);
-fifoDataType RingFifo_Pop(RingFifo* fifo);
+void RingFifo_Reset(RingFifo* fifo);
+int RingFifo_Push(RingFifo* fifo, fifoDataType data);
+int RingFifo_Pop(RingFifo* fifo, fifoDataType* dataOut);
 size_t RingFifo_GetSize(const RingFifo* fifo);
 size_t RingFifo_GetSizeRemaining(const RingFifo* fifo);

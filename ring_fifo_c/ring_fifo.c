@@ -2,7 +2,7 @@
 
 #include "ring_fifo.h"
 
-void RingFifo_Init(RingFifo* fifo)
+void RingFifo_Reset(RingFifo* fifo)
 {
     if (fifo == NULL)
     {

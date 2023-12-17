@@ -5,8 +5,6 @@ project(
   VERSION 1.0
   LANGUAGES CXX)
 
-# Find packages
-
 add_library(RingFifoCpp)
 target_sources(RingFifoCpp PRIVATE "ring_fifo.hpp")
 set_target_properties(RingFifoCpp PROPERTIES LINKER_LANGUAGE CXX)
