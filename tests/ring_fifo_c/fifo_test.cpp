@@ -1,15 +1,11 @@
+#include <format>
+
 #include <gtest/gtest.h>
 
-extern "C"
-{
-    #include "../../ring_fifo_c/ring_fifo.h"
-}
+#include "fifo_test_fixture.h"
 
-// TODO: Add test fixture for the FIFO object.
-
-TEST(FifoTestC, Reset)
+TEST_F(FifoTestC, Reset)
 {
-    RingFifo fifo;
     RingFifo_Reset(&fifo);
 
     // Fifo should be empty after reset.
@@ -17,18 +13,37 @@ TEST(FifoTestC, Reset)
     EXPECT_EQ(RING_FIFO_MAX_SIZE, RingFifo_GetSizeRemaining(&fifo));
 }
 
-TEST(FifoTestC, PushPop)
+TEST_F(FifoTestC, PushPop)
 {
-    RingFifo fifo;
     RingFifo_Reset(&fifo);
 
-    int testVector[RING_FIFO_MAX_SIZE] = {0};
+    uint8_t testVector[RING_FIFO_MAX_SIZE] = {0};
 
+    // Try to pop, should fail because FIFO is empty.
+    uint8_t dataOut = 0;
+    EXPECT_EQ(-1, RingFifo_Pop(&fifo, &dataOut));
+
+    // Push until full, testing size along the way.
     for (int i = 0; i < RING_FIFO_MAX_SIZE; i++)
     {
-        // TODO: Add scoped trace to loop.
+        SCOPED_TRACE(std::format("Push loop iteration {}\r\n", i));
         RingFifo_Push(&fifo, i);
         testVector[i] = i;
+
+        EXPECT_EQ((i + 1), RingFifo_GetSize(&fifo));
+        EXPECT_EQ((RING_FIFO_MAX_SIZE - (i + 1)), RingFifo_GetSizeRemaining(&fifo));
+    }
+
+    // Try to push, should fail because FIFO is full.
+    EXPECT_EQ(-1, RingFifo_Push(&fifo, 0));
+
+    // Push until full, testing size along the way.
+    for (int i = (RING_FIFO_MAX_SIZE - 1); i >= 0; i--)
+    {
+        SCOPED_TRACE(std::format("Pop loop iteration {}\r\n", i));
+        dataOut = 0;
+        RingFifo_Pop(&fifo, &dataOut);
+        EXPECT_EQ(testVector[i], dataOut);
 
         EXPECT_EQ((i + 1), RingFifo_GetSize(&fifo));
         EXPECT_EQ((RING_FIFO_MAX_SIZE - (i + 1)), RingFifo_GetSizeRemaining(&fifo));
