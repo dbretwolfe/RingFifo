@@ -43,9 +43,9 @@ TEST_F(FifoTestC, PushPop)
         SCOPED_TRACE(std::format("Pop loop iteration {}\r\n", i));
         dataOut = 0;
         RingFifo_Pop(&fifo, &dataOut);
-        EXPECT_EQ(testVector[i], dataOut);
+        EXPECT_EQ(testVector[RING_FIFO_MAX_SIZE - (i + 1)], dataOut);
 
-        EXPECT_EQ((i + 1), RingFifo_GetSize(&fifo));
-        EXPECT_EQ((RING_FIFO_MAX_SIZE - (i + 1)), RingFifo_GetSizeRemaining(&fifo));
+        EXPECT_EQ(i, RingFifo_GetSize(&fifo));
+        EXPECT_EQ((RING_FIFO_MAX_SIZE - i), RingFifo_GetSizeRemaining(&fifo));
     }
 }
