@@ -48,4 +48,7 @@ TEST_F(FifoTestC, PushPop)
         EXPECT_EQ(i, RingFifo_GetSize(&fifo));
         EXPECT_EQ((RING_FIFO_MAX_SIZE - i), RingFifo_GetSizeRemaining(&fifo));
     }
+
+    // Try to pop, should fail because FIFO is empty.
+    EXPECT_EQ(-1, RingFifo_Pop(&fifo, &dataOut));
 }

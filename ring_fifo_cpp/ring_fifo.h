@@ -1,43 +1,48 @@
 #pragma once
 
 #include <exception>
-#include <cassert>
+#include <vector>
 
 namespace RingFifo
 {
     template <typename T> class RingFifo
     {
     public:
-        RingFifo(size_t size) : maxFifoSize(size) 
+        RingFifo(size_t maxSize) : 
+            maxFifoSize(maxSize),
+            fifoBufferSize(maxSize + 1)
         {
-            buffer = new T[size];
+            buffer.resize(fifoBufferSize);
         }
 
-        ~RingFifo()
+        ~RingFifo(){}
+
+        void Reset()
         {
-            delete [] buffer;
+            writeIndex = 0;
+            readIndex = 0;
         }
 
         void Push(T data)
         {
             if (GetSizeRemaining() == 0)
             {
-                throw std::exception("FIFO is full, cannot push!");
+                throw std::overflow_error("FIFO is full, cannot push!");
             }
 
             buffer[writeIndex] = data;
-            writeIndex = ((writeIndex + 1) % maxFifoSize);
+            writeIndex = ((writeIndex + 1) % fifoBufferSize);
         }
 
-        T Pop() const
+        T& Pop()
         {
             if (GetSize() == 0)
             {
-                throw std::exception("FIFO is empty, cannot pop!");
+                throw std::underflow_error("FIFO is empty, cannot pop!");
             }
 
-            T dataOut = buffer[readIndex];
-            readIndex = ((readIndex + 1) % maxFifoSize);
+            T& dataOut = buffer[readIndex];
+            readIndex = ((readIndex + 1) % fifoBufferSize);
 
             return dataOut;
         }
@@ -50,21 +55,21 @@ namespace RingFifo
             }
             else
             {
-                return (writeIndex - maxFifoSize);
+                return (writeIndex - readIndex);
             }
         }
 
         size_t GetSizeRemaining() const
         {
-            assert (maxFifoSize <= GetSize());
             return (maxFifoSize - GetSize());
         }
 
     private:
-        T* buffer;
+        std::vector<T> buffer;
         size_t writeIndex = 0;
         size_t readIndex = 0;
 
         const size_t maxFifoSize;
+        const size_t fifoBufferSize;
     };
 }

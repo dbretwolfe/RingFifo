@@ -7,4 +7,4 @@ project(
 add_subdirectory(ring_fifo_c)
 add_subdirectory(ring_fifo_cpp)
 add_subdirectory(tests/ring_fifo_c)
-#add_subdirectory(tests/ring_fifo_cpp)
+add_subdirectory(tests/ring_fifo_cpp)
