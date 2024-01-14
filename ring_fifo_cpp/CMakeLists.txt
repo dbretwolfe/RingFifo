@@ -8,4 +8,3 @@ project(
 add_library(RingFifoCpp INTERFACE)
 target_include_directories(RingFifoCpp INTERFACE ./)
 set_target_properties(RingFifoCpp PROPERTIES LINKER_LANGUAGE CXX)
-target_compile_features(RingFifoCpp PUBLIC cxx_std_23)
