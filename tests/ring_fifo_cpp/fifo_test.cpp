@@ -4,6 +4,8 @@
 
 #include "fifo_test_fixture.h"
 
+using namespace FifoTemplates;
+
 TEST_F(FifoTestCpp, Reset)
 {
     fifo.Reset();
@@ -37,7 +39,7 @@ TEST_F(FifoTestCpp, PushPop)
     // Try to push, should throw due to FIFO being full.
     EXPECT_THROW(fifo.Push(0), std::overflow_error);
 
-    // Push until full, testing size along the way.
+    // Pop until empty, testing size along the way.
     for (int i = (maxFifoSize - 1); i >= 0; i--)
     {
         SCOPED_TRACE(std::format("Pop loop iteration {}\r\n", i));

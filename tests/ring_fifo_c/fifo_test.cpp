@@ -37,7 +37,7 @@ TEST_F(FifoTestC, PushPop)
     // Try to push, should fail because FIFO is full.
     EXPECT_EQ(-1, RingFifo_Push(&fifo, 0));
 
-    // Push until full, testing size along the way.
+    // Pop until empty, testing size along the way.
     for (int i = (RING_FIFO_MAX_SIZE - 1); i >= 0; i--)
     {
         SCOPED_TRACE(std::format("Pop loop iteration {}\r\n", i));

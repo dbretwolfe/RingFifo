@@ -12,5 +12,5 @@ protected:
     }
 
     const size_t maxFifoSize = 256;
-    RingFifo::RingFifo<uint8_t> fifo = RingFifo::RingFifo<uint8_t>(maxFifoSize);
+    FifoTemplates::RingFifo<uint8_t> fifo = FifoTemplates::RingFifo<uint8_t>(maxFifoSize);
 };

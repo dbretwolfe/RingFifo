@@ -3,7 +3,7 @@
 #include <exception>
 #include <vector>
 
-namespace RingFifo
+namespace FifoTemplates
 {
     template <typename T> class RingFifo
     {
