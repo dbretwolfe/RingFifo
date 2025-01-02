@@ -17,8 +17,7 @@ int RingFifo_Push(RingFifo* fifo, fifoDataType data)
 {
     assert(fifo);
 
-    if ((fifo == NULL) || (RingFifo_IsFull(fifo) == true))
-    {
+    if ((fifo == NULL) || (RingFifo_IsFull(fifo) == true)) {
         return -1;
     }
 
@@ -32,8 +31,7 @@ int RingFifo_Pop(RingFifo* fifo, fifoDataType* dataOut)
 {
     assert(fifo);
 
-    if ((fifo == NULL) || (RingFifo_IsEmpty(fifo)))
-    {
+    if ((fifo == NULL) || (RingFifo_IsEmpty(fifo))) {
         return -1;
     }
 
@@ -48,12 +46,10 @@ size_t RingFifo_GetSize(const RingFifo* fifo)
     assert(fifo);
     
     // Check to see if the write index has wrapped around the end of the buffer.
-    if (fifo->writeIndex < fifo->readIndex)
-    {
+    if (fifo->writeIndex < fifo->readIndex) {
         return ((fifo->writeIndex + RING_FIFO_MAX_SIZE) - fifo->readIndex);
     }
-    else
-    {
+    else {
         return (fifo->writeIndex - fifo->readIndex);
     }
 }

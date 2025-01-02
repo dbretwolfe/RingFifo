@@ -25,8 +25,7 @@ namespace FifoTemplates
 
         void Push(T data)
         {
-            if (GetSizeRemaining() == 0)
-            {
+            if (GetSizeRemaining() == 0) {
                 throw std::overflow_error("FIFO is full, cannot push!");
             }
 
@@ -36,8 +35,7 @@ namespace FifoTemplates
 
         T& Pop()
         {
-            if (GetSize() == 0)
-            {
+            if (GetSize() == 0) {
                 throw std::underflow_error("FIFO is empty, cannot pop!");
             }
 
@@ -49,12 +47,10 @@ namespace FifoTemplates
 
         size_t GetSize() const
         {
-            if (writeIndex < readIndex)
-            {
+            if (writeIndex < readIndex) {
                 return ((writeIndex + maxFifoSize) - readIndex);
             }
-            else
-            {
+            else {
                 return (writeIndex - readIndex);
             }
         }
